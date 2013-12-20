@@ -14,7 +14,7 @@ var geocoders = {
           return {
             longitude: r.results[0].geometry.location.lng,
             latitude: r.results[0].geometry.location.lat,
-            accuracy: "none"
+            accuracy: null
           }
         } catch(e) {
           return { longitude: '', latitude: '', accuracy: '' };
