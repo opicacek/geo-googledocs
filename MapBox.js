@@ -5,6 +5,22 @@ var ss = SpreadsheetApp.getActiveSpreadsheet(),
     settings = {};
     
 var geocoders = {
+    googleMaps: {
+      query: function(query, key) {
+        return 'http://maps.googleapis.com/maps/api/geocode/json?address=' + query + '&sensor=false';
+      },
+      parse: function(r) {
+        try {
+          return {
+            longitude: r.results[0].geometry.location.lng,
+            latitude: r.results[0].geometry.location.lat,
+            accuracy: "none"
+          }
+        } catch(e) {
+          return { longitude: '', latitude: '', accuracy: '' };
+        }
+      }
+    },
     yahoo: {
       query: function(query, key) {
         return 'http://where.yahooapis.com/geocode?appid=' +
@@ -230,6 +246,7 @@ function gcDialog() {
   grid.setWidget(0, 1, app.createListBox()
     .setName('apiBox')
     .setId('apiBox')
+    .addItem('googleMaps')
     .addItem('mapquest')
     .addItem('yahoo')
     .addItem('cicero'));
